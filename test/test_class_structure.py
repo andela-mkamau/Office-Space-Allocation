@@ -10,5 +10,4 @@ class TestOfficeSpaceAllocationClassStructure(unittest.TestCase):
         """
         Staff should be a subclass of the Person class
         """
-        self.staff = staff.Staff("King", "Kong")
-        assert issubclass(self.staff, person.Person), "Staff should be a subclass of Person"
+        assert issubclass(staff.Staff, person.Person), "Staff should be a subclass of Person"

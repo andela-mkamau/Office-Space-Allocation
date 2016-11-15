@@ -1,5 +1,6 @@
 import unittest
-
+from office_space_allocation import staff
+from office_space_allocation import person
 
 class TestOfficeSpaceAllocationClassStructure(unittest.TestCase):
     """

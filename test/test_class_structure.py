@@ -36,5 +36,5 @@ class TestOfficeSpaceAllocationClassStructure(unittest.TestCase):
         """
         LivingSpace should subclass Room
         """
-        self.bedroom = livingspace.LivingSpace("Bedroom")
+        self.bedroom = livingspace.LivingSpace()
         self.assertIsInstance(self.bedroom, room.Room, msg='LivingSpace should subclass Room')

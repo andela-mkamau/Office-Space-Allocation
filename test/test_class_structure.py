@@ -2,6 +2,8 @@ import unittest
 from office_space_allocation import staff
 from office_space_allocation import person
 from office_space_allocation import fellow
+from office_space_allocation import office
+from office_space_allocation import room
 
 class TestOfficeSpaceAllocationClassStructure(unittest.TestCase):
     """
@@ -21,3 +23,10 @@ class TestOfficeSpaceAllocationClassStructure(unittest.TestCase):
         """
         self.f1 = fellow.Fellow()
         self.assertIsInstance(self.f1, person.Person, msg="Fellow should be a subclass of Person")
+
+    def test_office_is_subclass_of_room(self):
+        """
+        Office class should subclass Room class
+        """
+        self.office = office.Office()
+        self.assertIsInstance(self.office, room.Room, msg="Office should be a sub class of Room")

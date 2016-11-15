@@ -12,3 +12,10 @@ class TestRoomFunctionality(unittest.TestCase):
         """
         rm = office.Office()
         self.assertEqual(rm.get_num_occupants(), 0, msg='By default, an Office room created should have zero occupants')
+
+    def test_get_name_office_room(self):
+        """
+        Should return the name of the office room, formatted in title case
+        """
+        self.rm = office.Office("Quiet room")
+        self.assertEqual(self.rm.get_name(), "Quiet Room")

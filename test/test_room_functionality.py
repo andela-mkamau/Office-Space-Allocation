@@ -37,4 +37,4 @@ class TestRoomFunctionality(unittest.TestCase):
         of = office.Office("New Office")
         fel = fellow.Fellow("Mary", "Jane")
         of.add_person(fel)
-        self.assertEqual(fel, self.of.occupants[0])
+        self.assertEqual(fel, of.occupants[0])

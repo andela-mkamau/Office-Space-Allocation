@@ -67,7 +67,7 @@ class TestRoomFunctionality(unittest.TestCase):
         staf = staff.Staff("TT", "PP")
         lroom = livingspace.LivingSpace("Livingroom")
         with self.assertRaises(InvalidRoomOccupantError):
-             lroom.add_person(staf)
+            lroom.add_person(staf)
 
     def test_adding_occupants_to_full_office_raises_exception(self):
         """
@@ -93,7 +93,24 @@ class TestRoomFunctionality(unittest.TestCase):
         """
         LivingRoom should raise an InvalidRoomOccupantError exception when Staff tries to join it.
         """
-        staf= staff.Staff("TT", "PP")
+        staf = staff.Staff("TT", "PP")
         lspace = livingspace.LivingSpace("Livingroom")
         with self.assertRaises(InvalidRoomOccupantError):
             lspace.add_person(staf)
+
+    def test_can_remove_fellow_from_office(self):
+        """
+        Should be able to remove a Fellow from Office room
+        """
+        of = office.Office("Hogwarts")
+        f1 = fellow.Fellow("Nan", "Pi")
+        f2 = fellow.Fellow("KK", "Brown")
+        of.add_person(f1)
+        of.add_person(f2)
+
+        self.assertTupleEqual(
+            (of.remove_person(f2), of.remove_person(f1)),
+            (f2, f1)
+        )
+
+        self.assertEquals(0, of.get_num_occupants())

@@ -88,3 +88,12 @@ class TestRoomFunctionality(unittest.TestCase):
             # add 5 fellows to this room
             for i in range(5):
                 lspace.add_person(fellow.Fellow("Fellow", str(i)))
+
+    def test_livingspace_raise_error_for_addition_of_staff(self):
+        """
+        LivingRoom should raise an InvalidRoomOccupantError exception when Staff tries to join it.
+        """
+        staf= staff.Staff("TT", "PP")
+        lspace = livingspace.LivingSpace("Livingroom")
+        with self.assertRaises(InvalidRoomOccupantError):
+            lspace.add_person(staf)

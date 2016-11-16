@@ -86,7 +86,7 @@ class TestRoomFunctionality(unittest.TestCase):
         lspace = livingspace.LivingSpace('TV Room')
         with self.assertRaises(RoomFullError):
             # add 5 fellows to this room
-            for i in range(5):
+            for i in range(6):
                 lspace.add_person(fellow.Fellow("Fellow", str(i)))
 
     def test_livingspace_raise_error_for_addition_of_staff(self):

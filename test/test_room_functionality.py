@@ -1,12 +1,14 @@
 import unittest
 from office_space_allocation import office
 from office_space_allocation import livingspace
+from office_space_allocation import fellow
 
 
 class TestRoomFunctionality(unittest.TestCase):
     """
     Tests the functionality of Room class, and its subclasses LivingRoom and Office
     """
+
     def test_office_room_has_zero_occupants_by_default(self):
         """
         By default, a Office room created should have zero occupants
@@ -27,3 +29,12 @@ class TestRoomFunctionality(unittest.TestCase):
         """
         self.lvroom = livingspace.LivingSpace("Chillout place")
         self.assertEqual(self.lvroom.get_name(), "Chillout Place")
+
+    def test_can_add_fellow_to_office_room(self):
+        """
+        Should be able to add fellows to Office room
+        """
+        of = office.Office("New Office")
+        fel = fellow.Fellow("Mary", "Jane")
+        of.add_person(fel)
+        self.assertEqual(fel, self.of.occupants[0])

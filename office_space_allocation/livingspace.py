@@ -6,7 +6,7 @@ from office_space_allocation.utilities import InvalidRoomOccupantError
 
 class LivingSpace(Room):
     def can_accept_occupants(self):
-        return self.get_occupants() < 5
+        return self.get_num_occupants() < 5
 
     def add_person(self, person):
         """

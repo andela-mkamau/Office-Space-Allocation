@@ -2,6 +2,7 @@ from office_space_allocation.room import Room
 from office_space_allocation.fellow import Fellow
 from office_space_allocation.staff import Staff
 from office_space_allocation.utilities import InvalidRoomOccupantError
+from office_space_allocation.utilities import RoomFullError
 
 
 class LivingSpace(Room):
@@ -20,3 +21,5 @@ class LivingSpace(Room):
                 self.occupants.append(person)
             elif isinstance(person, Staff):
                 raise InvalidRoomOccupantError("Staff cannot join LivingRooms")
+        else:
+            raise RoomFullError("LivingSpace is full")

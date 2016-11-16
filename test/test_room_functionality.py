@@ -78,3 +78,13 @@ class TestRoomFunctionality(unittest.TestCase):
             # add 7 fellows to this room
             for i in range(8):
                 of.add_person(fellow.Fellow("Fellow", str(i)))
+
+    def test_adding_occupants_to_full_livingspace_raises_exception(self):
+        """
+        A full LivingSpace should raise a RoomFullError when adding more occupants
+        """
+        lspace = livingspace.LivingSpace('TV Room')
+        with self.assertRaises(RoomFullError):
+            # add 5 fellows to this room
+            for i in range(5):
+                lspace.add_person(fellow.Fellow("Fellow", str(i)))

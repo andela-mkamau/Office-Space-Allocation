@@ -114,3 +114,11 @@ class TestRoomFunctionality(unittest.TestCase):
         )
 
         self.assertEquals(0, of.get_num_occupants())
+
+    def test_room_raises_valueerror_if_person_not_found(self):
+        """
+        Room should raise  a ValueError if Person is not found in it when being removed
+        """
+        of = office.Office("Main Office")
+        with self.assertRaises(ValueError):
+            of.remove_person(fellow.Fellow("IIY", "GGFD"))

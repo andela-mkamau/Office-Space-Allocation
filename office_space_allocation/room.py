@@ -1,4 +1,7 @@
-class Room:
+from  abc import ABCMeta, abstractmethod
+
+
+class Room(metaclass=ABCMeta):
     def __init__(self, name):
         self.occupants = []
         self.name = name
@@ -16,3 +19,11 @@ class Room:
         :return: ```str``` : name of room
         """
         return self.name.title()
+
+    @abstractmethod
+    def add_person(self, person):
+        pass
+
+    @abstractmethod
+    def can_accept_occupants(self):
+        pass

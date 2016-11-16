@@ -4,6 +4,7 @@ from office_space_allocation import livingspace
 from office_space_allocation import fellow
 from office_space_allocation import staff
 from office_space_allocation.utilities import InvalidRoomOccupantError
+from office_space_allocation.utilities import RoomFullError
 
 
 class TestRoomFunctionality(unittest.TestCase):
@@ -67,3 +68,13 @@ class TestRoomFunctionality(unittest.TestCase):
         lroom = livingspace.LivingSpace("Livingroom")
         with self.assertRaises(InvalidRoomOccupantError):
              lroom.add_person(staf)
+
+    def test_adding_occupants_to_full_office_raises_exception(self):
+        """
+        A full Office (6 occupants) should raise RoomFullError when occupants are added to it.
+        """
+        of = office.Office("Oculus")
+        with self.assertRaises(RoomFullError):
+            # add 7 fellows to this room
+            for i in range(8):
+                of.add_person(fellow.Fellow("Fellow", str(i)))

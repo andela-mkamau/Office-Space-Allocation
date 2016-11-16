@@ -2,6 +2,7 @@ import unittest
 from office_space_allocation import office
 from office_space_allocation import livingspace
 from office_space_allocation import fellow
+from office_space_allocation import staff
 
 
 class TestRoomFunctionality(unittest.TestCase):
@@ -47,3 +48,12 @@ class TestRoomFunctionality(unittest.TestCase):
         fel = fellow.Fellow("May", "Teresa")
         lroom.add_person(fel)
         self.assertEqual(fel, lroom.occupants[0])
+
+    def test_can_add_staff_to_office_room(self):
+        """
+        Should be able to add staff to Office room
+        """
+        staf = staff.Staff("TT", "PP")
+        of = office.Office("Main Office")
+        of.add_person(staf)
+        self.assertEqual(staf, of.occupants[0])

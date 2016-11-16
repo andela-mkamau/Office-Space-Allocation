@@ -1,4 +1,5 @@
 from  abc import ABCMeta, abstractmethod
+from office_space_allocation.person import Person
 
 
 class Room(metaclass=ABCMeta):
@@ -27,3 +28,19 @@ class Room(metaclass=ABCMeta):
     @abstractmethod
     def can_accept_occupants(self):
         pass
+
+    def remove_person(self, person):
+        """
+        Fetches, removes and returns a Person from the list of occupants in the Room
+        :param person:
+        :return: ```Person``` person
+        """
+        if not isinstance(person, Person):
+            raise TypeError("Argument must be of type Person")
+        elif self.get_num_occupants() == 0:
+            raise ValueError("Room is empty!")
+        elif person in self.occupants:
+            self.occupants.remove(person)
+            return person
+        else:
+            raise ValueError("Person not found iin this Room")

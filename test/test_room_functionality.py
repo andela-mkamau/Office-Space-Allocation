@@ -38,3 +38,12 @@ class TestRoomFunctionality(unittest.TestCase):
         fel = fellow.Fellow("Mary", "Jane")
         of.add_person(fel)
         self.assertEqual(fel, of.occupants[0])
+
+    def test_can_add_fellow_to_livingspace_room(self):
+        """
+        Should be able to add fellow to LivingRoom rooms
+        """
+        lroom = livingspace.LivingSpace("Kitchen")
+        fel = fellow.Fellow("May", "Teresa")
+        lroom.add_person(fel)
+        self.assertEqual(fel, lroom.occupants[0])

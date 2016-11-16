@@ -15,14 +15,14 @@ class TestOfficeSpaceAllocationClassStructure(unittest.TestCase):
         """
         Staff should be a subclass of the Person class
         """
-        self.staff = staff.Staff()
+        self.staff = staff.Staff("GGG", "YYY")
         self.assertIsInstance(self.staff, person.Person, msg="Staff should be a subclass of Person")
 
     def test_fellow_is_subclass_of_person(self):
         """
         Fellow should be a subclass of the Person class
         """
-        self.f1 = fellow.Fellow()
+        self.f1 = fellow.Fellow("FFF", "GGG")
         self.assertIsInstance(self.f1, person.Person, msg="Fellow should be a subclass of Person")
 
     def test_office_is_subclass_of_room(self):

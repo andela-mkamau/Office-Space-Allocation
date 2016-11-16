@@ -122,3 +122,23 @@ class TestRoomFunctionality(unittest.TestCase):
         of = office.Office("Main Office")
         with self.assertRaises(ValueError):
             of.remove_person(fellow.Fellow("IIY", "GGFD"))
+
+    def test_can_remove_fellows_staff_from_office(self):
+        """
+        Should be able to remove Fellows and Staff from office
+        """
+        f1 = fellow.Fellow("Mark", "Mike")
+        f2 = fellow.Fellow("JJ", "PP")
+        s1 = staff.Staff("FF", "KK")
+        s2 = staff.Staff("G", "FF")
+        of = office.Office("Small Office")
+        of.add_person(f1)
+        of.add_person(f2)
+        of.add_person(s1)
+        of.add_person(s2)
+
+        self.assertTupleEqual(
+            (of.remove_person(s1), of.remove_person(s2), of.remove_person(f2),
+             of.remove_person(f1),),
+            (s1, s2, f2, f1)
+        )

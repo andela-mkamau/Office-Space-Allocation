@@ -1,0 +1,2 @@
+class RoomFullError(Exception):
+    pass

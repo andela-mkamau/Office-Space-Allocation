@@ -61,3 +61,20 @@ class TestAmitySystem(unittest.TestCase):
         """
         with self.assertRaises(ValueError):
             self.amity.find_room("No Room Here")
+
+    def test_can_allocate_room_to_person(self):
+        """
+        Should be able to allocate room to a Person
+        """
+        rm1 = office.Office("Room 1")
+        rm2 = livingspace.LivingSpace("Room 2")
+        rm3 = livingspace.LivingSpace("Room 3")
+        self.amity.add_room(rm1)
+        self.amity.add_room(rm2)
+        self.amity.add_room(rm3)
+
+        fel = fellow.Fellow("Tat", "Pap")
+
+        fel_room = self.amity.allocate_room(fel)
+
+        self.assertEqual(fel, fel_room.get_occupants_tuple()[0])

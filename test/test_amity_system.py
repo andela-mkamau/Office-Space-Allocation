@@ -33,8 +33,8 @@ class TestAmitySystem(unittest.TestCase):
         """
         rm1 = office.Office("New Office")
         rm2 = livingspace.LivingSpace("Chillout Room")
-        self.amity.add_room(self.rm1)
-        self.amity.add_room(self.rm2)
+        self.amity.add_room(rm1)
+        self.amity.add_room(rm2)
         self.assertTupleEqual(
             (self.amity.all_rooms[1], self.amity.all_rooms[0]),
             (rm2, rm1)

@@ -93,10 +93,42 @@ class TestAmitySystem(unittest.TestCase):
             ((p2,), (p1,)),
             (self.amity.find_person("jane"), self.amity.find_person("kamau"))
         )
-    
+
     def test_raises_exception_if_person_not_found(self):
         """
         Should raise an Exception if Person being searched is not found
         """
         with self.assertRaises(Exception):
             self.amity.find_person("michael kamau")
+
+    def test_can_reallocate_person_to_another_room(self):
+        """
+        Should be able to reallocate Person to another Room
+        """
+        # create three rooms
+        rm1 = office.Office("Room 1")
+        rm2 = office.Office("Room 2")
+        rm3 = office.Office("Room 3")
+
+        self.amity.add_room(rm1)
+        self.amity.add_room(rm2)
+        self.amity.add_room(rm3)
+
+        #  Persons
+        p1 = fellow.Fellow("Fellow", "1")
+
+        # add Persons to Amity
+        self.amity.add_person(p1)
+        # add Persons to Rooms
+        room1 = self.amity.allocate_room(p1)
+
+        # reallocate p1 to another room
+        self.amity.reallocate_person("fellow 1", rm2.name)
+        self.assertIn(p1, rm2.get_occupants_tuple())
+        # reallocate p1 from rm2 to rm3
+        self.amity.reallocate_person("Fellow 1", rm3.get_name())
+        self.assertIn(p1, rm3.get_occupants_tuple())
+
+        # reallocate p1 from rm3 to rm1
+        self.amity.reallocate_person("fellow 1", rm1.get_name())
+        self.assertIn(p1, rm1.get_occupants_tuple())

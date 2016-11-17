@@ -71,3 +71,17 @@ class Amity:
                 return office_rm
         else:
             raise TypeError("Person argument must be of type Staff or Fellow")
+
+    def find_person(self, name):
+        """
+        Finds a Person using name.
+        Name can be the full name, first name, last name or part of either
+        :param name:
+        :return: a tuple with Person(s) objects found in the list if persons
+        """
+        name = name.strip()
+        res = [p for p in self.all_persons if name.title() in p.get_full_name()]
+        if not res:
+            raise Exception("Person was not found in the system")
+        else:
+            return tuple(res)

@@ -39,3 +39,19 @@ class TestAmitySystem(unittest.TestCase):
             (self.amity.all_rooms[1], self.amity.all_rooms[0]),
             (rm2, rm1)
         )
+
+    
+    def test_can_find_room_by_name(self):
+        """
+        Should be able to find Room using name
+        """
+        rm1 = office.Office("office 1")
+        rm2 = livingspace.LivingSpace("Livingroom 1")
+        self.amity.add_room(rm1)
+        self.amity.add_room(rm2)
+
+        self.assertTupleEqual(
+            (self.amity.find_room("livingroom 1"),
+             self.amity.find_room("office 1")),
+            (rm2, rm1)
+        )

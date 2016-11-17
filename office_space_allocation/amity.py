@@ -19,3 +19,10 @@ class Amity:
             raise TypeError("Argument should be of type Person")
         else:
             self.all_persons.append(person)
+
+    def add_room(self, new_room):
+        """
+        Adds ```Room``` new_room to list of all_rooms
+        :param ```Room``` new_room
+        """
+        self.all_rooms.append(new_room)

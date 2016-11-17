@@ -2,6 +2,9 @@ from office_space_allocation.person import Person
 from office_space_allocation.fellow import Fellow
 from office_space_allocation.staff import Staff
 from office_space_allocation.office import Office
+from office_space_allocation.utilities import InvalidRoomOccupantError
+from office_space_allocation.utilities import RoomFullError
+from office_space_allocation.utilities import MultiplePeopleFoundException
 import random
 
 
@@ -85,3 +88,45 @@ class Amity:
             raise Exception("Person was not found in the system")
         else:
             return tuple(res)
+
+    def reallocate_person(self, person_name, room_name):
+        """
+        Reallocates ```Person``` to another ```Room``` if possible
+
+        :param person_name: Name of the ```Person``` : str
+        :param room_name: Name of the ```Room```
+        :return: a tuple with (Person, Room) if reallocation is successful
+        """
+        person_name = person_name.strip()
+        room_name = room_name.strip()
+
+        try:
+            # only one person should be found
+            people_found = self.find_person(person_name)
+            if len(people_found) > 1:
+                raise MultiplePeopleFoundException
+            else:
+                person = people_found[0]
+        except Exception:
+            raise
+
+        try:
+            room = self.find_room(room_name)
+        except ValueError:
+            raise
+
+        # remove person in current room
+        # TODO: Add error checking if person is not in any room
+        for r in self.all_rooms:
+            if person in r.get_occupants_tuple():
+                r.remove_person(person)
+                break
+
+        # add person to room
+        try:
+            room.add_person(person)
+        except InvalidRoomOccupantError:
+            raise
+        except RoomFullError:
+            raise
+        return person, room

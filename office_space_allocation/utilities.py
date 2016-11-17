@@ -3,3 +3,6 @@ class RoomFullError(Exception):
 
 class InvalidRoomOccupantError(Exception):
     pass
+
+class MultiplePeopleFoundException(Exception):
+	pass

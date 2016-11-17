@@ -93,3 +93,10 @@ class TestAmitySystem(unittest.TestCase):
             ((p2,), (p1,)),
             (self.amity.find_person("jane"), self.amity.find_person("kamau"))
         )
+    
+    def test_raises_exception_if_person_not_found(self):
+        """
+        Should raise an Exception if Person being searched is not found
+        """
+        with self.assertRaises(Exception):
+            self.amity.find_person("michael kamau")

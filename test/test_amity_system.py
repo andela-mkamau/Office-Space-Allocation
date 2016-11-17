@@ -78,3 +78,18 @@ class TestAmitySystem(unittest.TestCase):
         fel_room = self.amity.allocate_room(fel)
 
         self.assertEqual(fel, fel_room.get_occupants_tuple()[0])
+
+    def test_can_find_person_by_name(self):
+        """
+        Should be able to find Person in the system using Person name
+        """
+        # add person to amity
+        p1 = fellow.Fellow("Mike", "Kamau")
+        p2 = staff.Staff("Mary", "Jane")
+        self.amity.add_person(p1)
+        self.amity.add_person(p2)
+
+        self.assertTupleEqual(
+            ((p2,), (p1,)),
+            (self.amity.find_person("jane"), self.amity.find_person("kamau"))
+        )

@@ -2,6 +2,8 @@ import unittest
 from office_space_allocation import amity
 from office_space_allocation import fellow
 from office_space_allocation import staff
+from office_space_allocation import office
+from office_space_allocation import livingspace
 
 
 class TestAmitySystem(unittest.TestCase):
@@ -23,4 +25,17 @@ class TestAmitySystem(unittest.TestCase):
         self.assertTupleEqual(
             (self.amity.all_persons[0], self.amity.all_persons[1]),
             (p1, p2)
+        )
+
+    def test_can_add_new_room_to_list_rooms(self):
+        """
+        Should be able to add rooms to list of rooms
+        """
+        rm1 = office.Office("New Office")
+        rm2 = livingspace.LivingSpace("Chillout Room")
+        self.amity.add_room(self.rm1)
+        self.amity.add_room(self.rm2)
+        self.assertTupleEqual(
+            (self.amity.all_rooms[1], self.amity.all_rooms[0]),
+            (rm2, rm1)
         )

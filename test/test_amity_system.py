@@ -40,7 +40,6 @@ class TestAmitySystem(unittest.TestCase):
             (rm2, rm1)
         )
 
-    
     def test_can_find_room_by_name(self):
         """
         Should be able to find Room using name
@@ -55,3 +54,10 @@ class TestAmitySystem(unittest.TestCase):
              self.amity.find_room("office 1")),
             (rm2, rm1)
         )
+
+    def test_raises_valueerror_room_not_found(self):
+        """
+        Should raise a ValueError when room is not found
+        """
+        with self.assertRaises(ValueError):
+            self.amity.find_room("No Room Here")

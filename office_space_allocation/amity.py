@@ -26,3 +26,15 @@ class Amity:
         :param ```Room``` new_room
         """
         self.all_rooms.append(new_room)
+
+    def find_room(self, name):
+        """
+        Find a ```Room``` object using name
+        :param name: ```str``` name of the Room to look for
+        :return: ```Room``` object if found
+        """
+        name = name.lower()
+        for r in self.all_rooms:
+            if name == r.get_name().lower():
+                return r
+        raise ValueError(name + " not found!")

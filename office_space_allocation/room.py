@@ -14,6 +14,9 @@ class Room(metaclass=ABCMeta):
         """
         return len(self.occupants)
 
+    def get_occupants_tuple(self):
+        return tuple(self.occupants)
+
     def get_name(self):
         """
         Fetches and returns the name of the room, formatted in title case

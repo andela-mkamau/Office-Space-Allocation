@@ -18,4 +18,20 @@ def save_state(amity, sqlite_db):
         cur = conn.cursor()
         cur.execute("DROP TABLE IF EXISTS State")
         cur.execute("CREATE TABLE State(Data BLOB)")
-        cur.execute("INSERT INTO TABLE State(Data) VALUES (?)", (state_bin,))
+        cur.execute("INSERT INTO State(Data) VALUES (?)", (state_bin,))
+
+
+def load_state(sqlite_db):
+    """
+    Fetches the state of Amity from the sqlite database 
+
+    :return: 
+    """
+    conn = sqlite3.connect(sqlite_db)
+
+    with conn:
+        cur = conn.cursor()
+        cur.execute("SELECT Data FROM State")
+        state_bin = cur.fetchone()[0]
+        state = pickle.loads(state_bin)
+        return state

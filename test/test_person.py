@@ -41,3 +41,12 @@ class TestPersonClass(unittest.TestCase):
         s1.unique_id = 66
         s2.unique_id = 66
         self.assertEqual(s1, s2)
+
+    def test_can_perform_equality_comparison_btn_staff_fellows(self):
+        """
+        Should be able to perform equality comparison between Staff and Fellows
+        """
+        s1 = staff.Staff("NN", "PP")
+        f1 = fellow.Fellow("NN", "PP")
+        self.assertNotEqual(s1, f1)
+

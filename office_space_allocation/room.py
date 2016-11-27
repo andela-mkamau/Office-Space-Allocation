@@ -1,4 +1,4 @@
-from  abc import ABCMeta, abstractmethod
+from abc import ABCMeta, abstractmethod
 from office_space_allocation.person import Person
 
 
@@ -47,3 +47,9 @@ class Room(metaclass=ABCMeta):
             return person
         else:
             raise ValueError("Person not found iin this Room")
+
+    def __eq__(self, other_room):
+        """
+        Makes equality comparison between this Room and other_room
+        """
+        pass

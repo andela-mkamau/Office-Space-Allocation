@@ -23,3 +23,11 @@ class LivingSpace(Room):
                 raise InvalidRoomOccupantError("Staff cannot join LivingRooms")
         else:
             raise RoomFullError("LivingSpace is full")
+
+    def __eq__(self, other_room):
+        """
+        Makes equality comparison between this Room and other_room
+        """
+        return (isinstance(other_room, LivingSpace) and
+                self.name == other_room.name and
+                self.occupants == other_room.occupants)

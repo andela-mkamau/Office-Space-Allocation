@@ -18,3 +18,11 @@ class Office(Room):
         Office can have a maximum of 6 occupants
         """
         return self.get_num_occupants() < 7
+
+    def __eq__(self, other_room):
+        """
+        Makes equality comparison between this Room and other_room
+        """
+        return (isinstance(other_room, Office) and
+                self.name.lower() == other_room.name.lower() and
+                self.occupants == other_room.occupants)

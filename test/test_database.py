@@ -4,7 +4,8 @@ from office_space_allocation import livingspace
 from office_space_allocation import staff
 from office_space_allocation import fellow
 from office_space_allocation import amity
-
+from office_space_allocation import db
+import os
 
 class TestDatabaseOperations(unittest.TestCase):
     """
@@ -15,7 +16,6 @@ class TestDatabaseOperations(unittest.TestCase):
     def setUp(self):
         self.amity = amity.Amity()
 
-    @unittest.skip("Test not complete")
     def test_can_save_retrieve_application_state_to_sqlite_database(self):
         """
         Should be able to save and retrieve all application state to sqlite database
@@ -41,9 +41,10 @@ class TestDatabaseOperations(unittest.TestCase):
         self.another_amity = amity.Amity()
 
         # retrieve stored state
-        state = db.load_state(self.another_amity, 'test_db')
+        state = db.load_state('test_db')
 
         self.assertTupleEqual(
             (self.amity.all_rooms, self.amity.all_persons),
-            self.state
+            state
         )
+        os.remove('test_db')

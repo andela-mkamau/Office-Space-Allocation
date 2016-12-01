@@ -21,6 +21,8 @@ Options:
 import cmd
 import sys
 from docopt import docopt, DocoptExit
+from office_space_allocation import main
+from office_space_allocation import utilities
 
 # Thanks to
 # https://github.com/docopt/docopt/blob/master/examples/interactive_example.py
@@ -61,7 +63,8 @@ class InteractiveOSA(cmd.Cmd):
             create_room <room_name>...
 
         """
-        print(args)
+        rooms = args['<room_name>']
+        main.create_room(rooms)
 
     @docopt_cmd
     def do_add_person(self, args):

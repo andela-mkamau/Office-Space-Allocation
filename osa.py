@@ -3,7 +3,7 @@
 Office Space allocation
 
 Usage:
-     osa.py create_room <room_name>...
+     osa.py create_room (office | livingspace) <room_name>...
      osa.py add_person <person_name> <FELLOW|STAFF> [wants_accomodation]
      osa.py reallocate_person <person_identifier> <new_room_name>
      osa.py load_people -i FILE
@@ -57,14 +57,14 @@ class InteractiveOSA(cmd.Cmd):
     @docopt_cmd
     def do_create_room(self, args):
         """
-        Creates rooms in Amity by specifying multiple room names
+        Creates rooms in Amity by specifying room type and multiple room names
 
         Usage:
-            create_room <room_name>...
+            create_room (office | livingspace) <room_name>...
 
         """
         rooms = args['<room_name>']
-        main.create_room(rooms)
+        print(args)
 
     @docopt_cmd
     def do_add_person(self, args):

@@ -7,9 +7,6 @@ class TestMainFunctionality(unittest.TestCase):
     Tests the main functionalities of the Office Space Allocation system
     """
 
-    def setUp(self):
-        main.init_amity()
-
     def test_can_add_office_rooms_to_amity(self):
         """
         Given arbitrary command line args as room type and room names, the create_room
@@ -23,7 +20,7 @@ class TestMainFunctionality(unittest.TestCase):
         main.create_room(args)
         self.assertListEqual(
             args['<room_name>'],
-            [r.get_name() for r in main.amity]
+            [r.get_name() for r in main.main_amity.all_rooms]
         )
 
 

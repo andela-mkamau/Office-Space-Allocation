@@ -63,8 +63,7 @@ class InteractiveOSA(cmd.Cmd):
             create_room (office | livingspace) <room_name>...
 
         """
-        rooms = args['<room_name>']
-        print(args)
+        main.create_room(args)
 
     @docopt_cmd
     def do_add_person(self, args):

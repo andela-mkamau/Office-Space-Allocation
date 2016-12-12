@@ -9,9 +9,10 @@ class TestMainFunctionality(unittest.TestCase):
 
     def test_can_add_office_rooms_to_amity(self):
         """
-        Given arbitrary command line args as room type and room names, the create_room
+        Given  command line args as room type and room names, the create_room
         command should be able to add Office rooms to Amity
         """
+        main.main_amity.all_rooms = []
         args = {
             '<room_name>' : ['Hogwats', 'Oculus'],
             'office': True,
@@ -23,6 +24,22 @@ class TestMainFunctionality(unittest.TestCase):
             [r.get_name() for r in main.main_amity.all_rooms]
         )
 
+    def test_can_add_livingspace_rooms_to_amity(self):
+        """
+        Given  command line args as room type and room names, the create_room
+        command should be able to add LivingSpace rooms to Amity
+        """
+        main.main_amity.all_rooms = []
+        args = {
+            '<room_name>': ['Shell', 'Php'],
+            'office': False,
+            'livingspace': True,
+        }
+        main.create_room(args)
+        self.assertListEqual(
+            args['<room_name>'],
+            [r.get_name() for r in main.main_amity.all_rooms]
+        )
 
         
 

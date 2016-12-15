@@ -74,7 +74,7 @@ class InteractiveOSA(cmd.Cmd):
             add_person <first_name> <last_name> <title> [<wants_accommodation>]
 
         """
-        print(args)
+        main.add_person(args)
 
     @docopt_cmd
     def do_reallocate_person(self, args):

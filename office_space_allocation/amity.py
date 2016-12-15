@@ -56,7 +56,8 @@ class Amity:
             # allocate only offices
             offices = [of for of in self.all_rooms if isinstance(of, Office)]
             if len(offices) < 1:
-                raise IndexError("There are no more Office rooms to allocate")
+                raise IndexError("There are no more Office rooms to allocate. Please create some rooms before making "
+                                 "allocations")
             else:
                 rm = random.choice(offices)
 
@@ -66,7 +67,7 @@ class Amity:
         elif isinstance(person, Fellow):
             # raise exception if there are no rooms
             if len(self.all_rooms) < 1:
-                raise IndexError("There are no available rooms")
+                raise IndexError("There are no available rooms. Please create some rooms before making allocations.")
             else:
                 office_rm = random.choice(self.all_rooms)
                 office_rm.add_person(person)

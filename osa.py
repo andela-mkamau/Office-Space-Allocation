@@ -4,7 +4,7 @@ Office Space allocation
 
 Usage:
      osa.py create_room (office | livingspace) <room_name>...
-     osa.py add_person <person_name> <FELLOW|STAFF> [wants_accomodation]
+     add_person add_person <first_name> <last_name> <title> [<wants_accommodation>]
      osa.py reallocate_person <person_identifier> <new_room_name>
      osa.py load_people -i FILE
      osa.py print_allocations [-o=filename]
@@ -68,10 +68,10 @@ class InteractiveOSA(cmd.Cmd):
     @docopt_cmd
     def do_add_person(self, args):
         """
-        Adds a person to the system and allocates the person to a random room.
+        Adds a person to the system and allocates the Person to a random Room.
 
         Usage:
-            add_person <person_name> <FELLOW|STAFF> [wants_accomodation]
+            add_person <first_name> <last_name> <title> [<wants_accommodation>]
 
         """
         print(args)

@@ -121,11 +121,13 @@ class Amity:
                                                                                                   room_name))
 
         # remove person in current room
-        # TODO: Add error checking if person is not in any room
         for r in self.all_rooms:
             if person in r.get_occupants_tuple():
                 r.remove_person(person)
                 break
+            else:
+                raise Exception("{} has not been added to any room.\n Please add them to a room before making any "
+                                "reallocation". format(person_name))
 
         # add person to room
         try:

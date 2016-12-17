@@ -4,8 +4,8 @@ Office Space allocation
 
 Usage:
      osa.py create_room (office | livingspace) <room_name>...
-     add_person add_person <first_name> <last_name> <title> [<wants_accommodation>]
-     osa.py reallocate_person <person_identifier> <new_room_name>
+     osa.py add_person <first_name> <last_name> <title> [<wants_accommodation>]
+     osa.py reallocate_person <first_name> <last_name> <new_room_name>
      osa.py load_people -i FILE
      osa.py print_allocations [-o=filename]
      osa.py print_unallocated [-o=filename]
@@ -79,13 +79,14 @@ class InteractiveOSA(cmd.Cmd):
     @docopt_cmd
     def do_reallocate_person(self, args):
         """
-        Reallocates the person with  person_identifier  to  new_room_name
+        Reallocates a Person to a Room with name `new_room_name`
 
         Usage:
-            reallocate_person <person_identifier> <new_room_name>
+            reallocate_person <first_name> <last_name> <new_room_name>
 
         """
-        print(args)
+        # TODO : Refactor to allow for a fuzzy search
+        main.reallocate_person(args)
 
     @docopt_cmd
     def do_load_people(self, args):

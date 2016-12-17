@@ -1,4 +1,4 @@
-from office_space_allocation import amity, office, staff, livingspace, fellow
+from office_space_allocation import amity, office, staff, livingspace, fellow, utilities
 
 main_amity = None
 
@@ -75,3 +75,28 @@ def add_person(args):
                 main_amity.allocate_room(p)
     except IndexError as e:
         print("Error allocating room.\n", e)
+
+
+def reallocate_person(args):
+    """
+    Reallocates a Person to a Room with name `new_room_name`
+
+    {'<first_name>': 'f',
+ '<last_name>': 's',
+ '<new_room_name>': 'r'}
+    """
+    name = args['<first_name>'].strip().title() + " " + args['<last_name>'].strip().title()
+    room_name = args['<new_room_name>']
+    try:
+        main_amity.reallocate_person(name, room_name)
+    except ValueError as e:
+        print("Error found while reallocating room\nThe room", e)
+    except utilities.InvalidRoomOccupantError as e:
+        print("Error found while reallocating person!")
+        print(name, "cannot be reallocated to", room_name)
+    except utilities.RoomFullError as e:
+        print("Error found while reallocating person!")
+        print(room_name, "is already full! Please try with another room or remove some people there")
+    except Exception as e:
+        print("Error found while reallocating person.\n", e, "\n\n Type help to view all commands")
+

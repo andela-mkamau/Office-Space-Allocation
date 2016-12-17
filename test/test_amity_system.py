@@ -111,24 +111,26 @@ class TestAmitySystem(unittest.TestCase):
         rm3 = office.Office("Room 3")
 
         self.amity.add_room(rm1)
-        self.amity.add_room(rm2)
-        self.amity.add_room(rm3)
-
         #  Persons
         p1 = fellow.Fellow("Fellow", "1")
 
         # add Persons to Amity
         self.amity.add_person(p1)
         # add Persons to Rooms
-        room1 = self.amity.allocate_room(p1)
+        room = self.amity.allocate_room(p1)
+        print("Room allocated: ", room.get_name())
+
+        # Add other rooms
+        self.amity.add_room(rm2)
+        self.amity.add_room(rm3)
 
         # reallocate p1 to another room
         self.amity.reallocate_person("fellow 1", rm2.name)
-        self.assertIn(p1, rm2.get_occupants_tuple())
+        self.assertTrue(rm2.has_person(p1))
         # reallocate p1 from rm2 to rm3
         self.amity.reallocate_person("Fellow 1", rm3.get_name())
-        self.assertIn(p1, rm3.get_occupants_tuple())
+        self.assertTrue(rm3.has_person(p1))
 
         # reallocate p1 from rm3 to rm1
         self.amity.reallocate_person("fellow 1", rm1.get_name())
-        self.assertIn(p1, rm1.get_occupants_tuple())
+        self.assertTrue(rm1.has_person(p1))

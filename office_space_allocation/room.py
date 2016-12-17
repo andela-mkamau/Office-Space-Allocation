@@ -32,6 +32,18 @@ class Room(metaclass=ABCMeta):
     def can_accept_occupants(self):
         pass
 
+    def has_person(self, person):
+        """
+        Checks if this Room has Person person
+
+        :param person: `Person` to check for
+        :return: `True` if Room has this Person, else `False`
+        """
+        for p in self.occupants:
+            if person == p:
+                return True
+        return False
+
     def remove_person(self, person):
         """
         Fetches, removes and returns a Person from the list of occupants in the Room

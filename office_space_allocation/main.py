@@ -1,6 +1,7 @@
 from office_space_allocation import amity, office, staff, livingspace, fellow, utilities
 import os
 import re
+from tabulate import tabulate
 
 main_amity = None
 
@@ -72,15 +73,22 @@ def add_person(args):
             main_amity.add_person(p)
             print("Successfully added", p.get_full_name(), "to Amity.")
             if wants_accommodation == 'y':
-                r = main_amity.allocate_room(p)
-                print("Successfully allocated", p.get_full_name(), "to", r.get_name())
+                try:
+                    r = main_amity.allocate_room(p)
+                    print("Successfully allocated", p.get_full_name(), "to", r.get_name())
+                except utilities.RoomFullError as e:
+                    print("Error allocating", p.get_full_name(), "room\n ", e)
+
         elif args['<title>'].lower() == "fellow":
             p = fellow.Fellow(args['<first_name>'], args['<last_name>'])
             main_amity.add_person(p)
             print("Successfully added", p.get_full_name(), "to Amity.")
             if wants_accommodation == 'y':
-                main_amity.allocate_room(p)
-                print("Successfully allocated", p.get_full_name(), "to", r.get_name())
+                try:
+                    r = main_amity.allocate_room(p)
+                    print("Successfully allocated", p.get_full_name(), "to", r.get_name())
+                except utilities.RoomFullError as e:
+                    print("Error allocating", p.get_full_name(), "room\n ", e)
     except IndexError as e:
         print("Error allocating room.\n", e)
 

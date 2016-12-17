@@ -142,3 +142,26 @@ class TestRoomFunctionality(unittest.TestCase):
              of.remove_person(f1),),
             (s1, s2, f2, f1)
         )
+
+    def test_can_check_if_room_has_person(self):
+        """
+        Should be able to check if a Room has a Person
+        """
+        of1 = office.Office("oculus")
+        liv = livingspace.LivingSpace("Game Room")
+        f1 = fellow.Fellow("Nad", "Nate")
+        s1 = staff.Staff("Luke", "John")
+
+        self.assertFalse(of1.has_person(f1))
+        self.assertFalse(liv.has_person(s1))
+
+        of1.add_person(f1)
+        self.assertTrue(of1.has_person(f1))
+        of1.remove_person(f1)
+        self.assertFalse(of1.has_person(f1))
+
+        of1.add_person(s1)
+        self.assertTrue(of1.has_person(s1))
+
+        liv.add_person(f1)
+        self.assertTrue(liv.has_person(f1))

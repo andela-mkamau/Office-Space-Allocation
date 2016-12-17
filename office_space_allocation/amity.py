@@ -92,11 +92,11 @@ class Amity:
 
     def reallocate_person(self, person_name, room_name):
         """
-        Reallocates ```Person``` to another ```Room``` if possible
+        Reallocates `Person` to another `Room` if possible
 
-        :param person_name: Name of the ```Person``` : str
-        :param room_name: Name of the ```Room```
-        :return: a tuple with (Person, Room) if reallocation is successful
+        :param: person_name: Name of the `Person`
+        :param: room_name: Name of the `Room`
+        :return: a tuple with (`Person`, `Room`) if reallocation is successful
         """
         person_name = person_name.strip()
         room_name = room_name.strip()
@@ -115,6 +115,10 @@ class Amity:
             room = self.find_room(room_name)
         except ValueError:
             raise
+
+        if person in room.get_occupants_tuple():
+            raise Exception("Cannot reallocate person to same room.\n {} is already in {}".format(person_name,
+                                                                                                  room_name))
 
         # remove person in current room
         # TODO: Add error checking if person is not in any room

@@ -116,18 +116,20 @@ class Amity:
         except ValueError:
             raise
 
-        if person in room.get_occupants_tuple():
+        if room.has_person(person):
             raise Exception("Cannot reallocate person to same room.\n {} is already in {}".format(person_name,
                                                                                                   room_name))
 
         # remove person in current room
+        found = False
         for r in self.all_rooms:
-            if person in r.get_occupants_tuple():
+            if r.has_person(person):
+                found = True
                 r.remove_person(person)
                 break
-            else:
-                raise Exception("{} has not been added to any room.\n Please add them to a room before making any "
-                                "reallocation". format(person_name))
+        if not found:
+            raise Exception("{} has not been added to any room.\n Please add them to a room before making any "
+                            "reallocation".format(person_name))
 
         # add person to room
         try:

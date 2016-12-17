@@ -17,7 +17,7 @@ class Office(Room):
         """
         Office can have a maximum of 6 occupants
         """
-        return self.get_num_occupants() < 7
+        return self.get_num_occupants() < 6
 
     def __eq__(self, other_room):
         """

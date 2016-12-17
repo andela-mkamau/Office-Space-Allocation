@@ -7,7 +7,7 @@ from office_space_allocation.utilities import RoomFullError
 
 class LivingSpace(Room):
     def can_accept_occupants(self):
-        return self.get_num_occupants() < 5
+        return self.get_num_occupants() < 4
 
     def add_person(self, person):
         """

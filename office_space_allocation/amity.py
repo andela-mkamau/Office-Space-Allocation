@@ -70,19 +70,20 @@ class Amity:
                                  "allocations")
             else:
                 rm = random.choice(offices)
-
-                rm.add_person(person)
-                self.allocated_rooms.append(rm)
-                return rm
+                if rm.can_accept_occupants():
+                    rm.add_person(person)
+                    self.allocated_rooms.append(rm)
+                    return rm
         elif isinstance(person, Fellow):
             # raise exception if there are no rooms
             if len(self.all_rooms) < 1:
                 raise IndexError("There are no available rooms. Please create some rooms before making allocations.")
             else:
                 office_rm = random.choice(self.all_rooms)
-                office_rm.add_person(person)
-                self.allocated_rooms.append(office_rm)
-                return office_rm
+                if office_rm.can_accept_occupants():
+                    office_rm.add_person(person)
+                    self.allocated_rooms.append(office_rm)
+                    return office_rm
         else:
             raise TypeError("Person argument must be of type Staff or Fellow")
 

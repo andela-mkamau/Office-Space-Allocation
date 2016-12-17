@@ -25,11 +25,19 @@ def create_room(args):
     if args['office']:
         office_rooms = [office.Office(name) for name in args['<room_name>']]
         for r in office_rooms:
-            main_amity.add_room(r)
+            if not main_amity.has_room(r):
+                main_amity.add_room(r)
+                print("Successfully created office room:", r.get_name())
+            else:
+                print("{} already exists in Amity. Cannot create duplicate room!".format(r.get_name()))
     if args['livingspace']:
         ls_rooms = [livingspace.LivingSpace(name) for name in args['<room_name>']]
         for r in ls_rooms:
-            main_amity.add_room(r)
+            if not main_amity.has_room(r):
+                main_amity.add_room(r)
+                print("Successfully created livingspace room:", r.get_name())
+            else:
+                print("{} already exists in Amity. Cannot create duplicate room!".format(r.get_name()))
 
 
 def add_person(args):
@@ -62,13 +70,17 @@ def add_person(args):
         if args['<title>'].lower() == "staff":
             p = staff.Staff(args['<first_name>'], args['<last_name>'])
             main_amity.add_person(p)
+            print("Successfully added", p.get_full_name(), "to Amity.")
             if wants_accommodation == 'y':
-                main_amity.allocate_room(p)
+                r = main_amity.allocate_room(p)
+                print("Successfully allocated", p.get_full_name(), "to", r.get_name())
         elif args['<title>'].lower() == "fellow":
             p = fellow.Fellow(args['<first_name>'], args['<last_name>'])
             main_amity.add_person(p)
+            print("Successfully added", p.get_full_name(), "to Amity.")
             if wants_accommodation == 'y':
                 main_amity.allocate_room(p)
+                print("Successfully allocated", p.get_full_name(), "to", r.get_name())
     except IndexError as e:
         print("Error allocating room.\n", e)
 
@@ -81,6 +93,7 @@ def reallocate_person(args):
     room_name = args['<new_room_name>']
     try:
         main_amity.reallocate_person(name, room_name)
+        print("Successfully reallocated", name, "to", room_name)
     except ValueError as e:
         print("Error found while reallocating room\nThe room", e)
     except utilities.InvalidRoomOccupantError as e:

@@ -1,5 +1,5 @@
 import unittest
-from office_space_allocation import main, office
+from office_space_allocation import main, office, staff
 
 
 class TestMainFunctionality(unittest.TestCase):
@@ -53,4 +53,27 @@ class TestMainFunctionality(unittest.TestCase):
                 '<wants_accommodation>': 'Y'}
         main.add_person(args)
         self.assertEquals(main.main_amity.find_room("Oculus").get_num_occupants(), 1)
+
+    def test_can_reallocate_person_to_another_room(self):
+        """
+        Given correct command line args, reallocate_person should be able to reallocate Person to new Room
+        """
+        main.main_amity.all_rooms = []
+        main.main_amity.all_persons = []
+        args = {'<first_name>': 'mike',
+                '<last_name>': 'sam',
+                '<new_room_name>': 'mordor'}
+
+        p = staff.Staff("Mike", "Sam")
+        main.main_amity.add_person(p)
+        rm1 = office.Office("oculus")
+        main.main_amity.add_room(rm1)
+        main.main_amity.allocate_room(p)
+
+        rm2 = office.Office("mordor")
+        main.main_amity.add_room(rm2)
+        self.assertFalse(rm2.has_person(p))
+
+        main.reallocate_person(args)
+        self.assertTrue(rm2.has_person(p))
 

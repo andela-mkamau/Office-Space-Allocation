@@ -32,6 +32,16 @@ class Amity:
         """
         self.all_rooms.append(new_room)
 
+    def has_room(self, room):
+        """
+        Checks if Room `room` already exists in Amity
+        :return: `True` if room exist, otherwise `False`
+        """
+        for r in self.all_rooms:
+            if r == room:
+                return True
+        return False
+
     def find_room(self, name):
         """
         Find a ```Room``` object using name

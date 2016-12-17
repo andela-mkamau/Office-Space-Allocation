@@ -1,4 +1,6 @@
 from office_space_allocation import amity, office, staff, livingspace, fellow, utilities
+import os
+import re
 
 main_amity = None
 
@@ -35,10 +37,6 @@ def add_person(args):
     Adds a person to the system and allocates the person to a random room.
 
     :param args: Command line args from docopt
-    '<first_name>': 'john',
-                '<last_name>': 'king',
-                '<title>': 'STAFF',
-                '<wants_accommodation>': 'Y'}
     """
     if args['<title>'].lower() not in ('staff', 'fellow'):
         print("Invalid syntax!")
@@ -50,8 +48,6 @@ def add_person(args):
         print("Invalid syntax!")
         print("If", args['<first_name>'].title(), args['<last_name>'].title(), "wants accommodation, please indicate "
                                                                                "with a yes or no in the last argument")
-        print("""\nUsage:
-                    add_person <first_name> <last_name> <title> [<wants_accommodation>]""")
         return
 
     if args['<wants_accommodation>']:
@@ -80,10 +76,6 @@ def add_person(args):
 def reallocate_person(args):
     """
     Reallocates a Person to a Room with name `new_room_name`
-
-    {'<first_name>': 'f',
- '<last_name>': 's',
- '<new_room_name>': 'r'}
     """
     name = args['<first_name>'].strip().title() + " " + args['<last_name>'].strip().title()
     room_name = args['<new_room_name>']
@@ -100,3 +92,47 @@ def reallocate_person(args):
     except Exception as e:
         print("Error found while reallocating person.\n", e, "\n\n Type help to view all commands")
 
+
+def _get_line_data(line_data):
+    """
+    Helper function to construct args when loading people from file
+    """
+    data = re.split("\s+", line_data)
+    args = {}
+    if len(data) == 4:
+        args['<first_name>'] = data[0]
+        args['<last_name>'] = data[1]
+        args['<title>'] = data[2]
+        args['<wants_accommodation>'] = data[3]
+        return args
+    elif len(data) == 3:
+        args['<first_name>'] = data[0]
+        args['<last_name>'] = data[1]
+        args['<title>'] = data[2]
+        args['<wants_accommodation>'] = None
+        return args
+    else:
+        print("Error processing data!")
+        print("The data file contains invalid data. Also check for incorrect formatting.")
+
+
+def load_people(args):
+    """
+    Adds people to rooms from a txt file.
+    """
+    file_path = args['FILE']
+    if not os.path.isfile(file_path):
+        print("Error reading file...")
+        print("The file path provided does not exist")
+        return
+
+    with open(file_path, encoding='utf-8') as data_file:
+        line_no = 0
+        for line in data_file:
+            args = _get_line_data(line.strip())
+            line_no += 1
+            if args:
+                add_person(args)
+            else:
+                print("Skipping line ", line_no)
+                continue

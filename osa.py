@@ -98,6 +98,7 @@ class InteractiveOSA(cmd.Cmd):
 
         """
         print(args)
+        main.load_people(args)
 
     @docopt_cmd
     def do_print_allocations(self, args):

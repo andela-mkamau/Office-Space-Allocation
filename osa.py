@@ -135,7 +135,7 @@ class InteractiveOSA(cmd.Cmd):
            print_room <room_name>
 
         """
-        print(args)
+        main.print_room(args)
 
     @docopt_cmd
     def do_save_state(self, args):

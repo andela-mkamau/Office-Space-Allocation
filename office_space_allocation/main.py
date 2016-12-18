@@ -213,3 +213,21 @@ def print_unallocated(args):
         print("Invalid syntax.")
         print("""Usage:
             print_unallocated [-o FILE]""")
+
+
+def print_room(args):
+    """
+    Prints the names of all the people in a room on the screen.
+    """
+    try:
+        room = main_amity.find_room(args['<room_name>'])
+        room_occupants = [p.get_full_name() for p in room.occupants]
+
+        if not room_occupants:
+            print("{} is currently empty. Please allocate or reallocate people here.".format(room.get_name()))
+            return
+        data = {room.get_name() + " occupants:": room_occupants}
+        print(tabulate(data, headers='keys', tablefmt='fancy_grid'))
+    except ValueError:
+        print("The room {} doesn't exist. You could create it. Please type help to view all "
+              "commands.".format(args['<room_name>']))

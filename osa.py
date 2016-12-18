@@ -7,7 +7,7 @@ Usage:
      osa.py add_person <first_name> <last_name> <title> [<wants_accommodation>]
      osa.py reallocate_person <first_name> <last_name> <new_room_name>
      osa.py load_people -i FILE
-     osa.py print_allocations [-o=filename]
+     osa.py print_allocations [-o FILE]
      osa.py print_unallocated [-o=filename]
      osa.py print_room <room_name>
      osa.py save_state [--db=sqlite_database]
@@ -104,20 +104,20 @@ class InteractiveOSA(cmd.Cmd):
     def do_print_allocations(self, args):
         """
         Prints a list of allocations onto the screen.
-        Specifying the optional  -o  option here outputs the registered 
+        Specifying the optional -o option here outputs the registered
         allocations to a txt file
 
         Usage:
-            print_allocations [-o=filename]
+            print_allocations [-o FILE]
 
         """
-        print(args)
+        main.print_allocations(args)
 
     @docopt_cmd
     def do_print_unallocated(self, args):
         """
         Prints a list of unallocated people to the screen.
-        Specifying the  -o  option here outputs the information to the txt file 
+        Specifying the -o option here outputs the information to the txt file
         provided.
 
         Usage:

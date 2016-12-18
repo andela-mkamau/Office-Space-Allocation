@@ -157,3 +157,31 @@ def load_people(args):
             else:
                 print("Skipping line ", line_no)
                 continue
+
+
+def print_allocations(args):
+    """
+    Prints a list of allocations onto the screen
+    Specifying the optional -o option here outputs the registered allocations to a txt file.
+    """
+    allocations = {}
+    for r in main_amity.all_rooms:
+        if r.get_num_occupants() > 0:
+            allocations[r.get_name()] = []
+            for p in r.get_occupants_tuple():
+                allocations[r.get_name()].append(p.get_full_name())
+
+    if not allocations:
+        print("There exists no allocations at the moment. Please make some room allocations first.")
+        return
+    data = tabulate(allocations, headers='keys', tablefmt='fancy_grid')
+    if args['-o'] and args['FILE']:
+        with open(args['FILE'], encoding='utf-8', mode='w') as output_file:
+            output_file.write(data)
+            print("Successfully wrote room allocations to the file", args['FILE'])
+    elif not args['-o'] and not args['FILE']:
+        print(tabulate(allocations, headers='keys', tablefmt='fancy_grid'))
+    else:
+        print("Invalid syntax.")
+        print("""Usage:
+            print_allocations [-o FILE]""")

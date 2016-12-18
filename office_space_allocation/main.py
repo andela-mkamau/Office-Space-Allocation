@@ -180,8 +180,36 @@ def print_allocations(args):
             output_file.write(data)
             print("Successfully wrote room allocations to the file", args['FILE'])
     elif not args['-o'] and not args['FILE']:
-        print(tabulate(allocations, headers='keys', tablefmt='fancy_grid'))
+        print(data)
     else:
         print("Invalid syntax.")
         print("""Usage:
             print_allocations [-o FILE]""")
+
+
+def print_unallocated(args):
+    """
+    Prints a list of unallocated people to the screen
+    """
+    allocated_people = []
+    for r in main_amity.all_rooms:
+        if r.get_num_occupants() > 0:
+            for p in r.get_occupants_tuple():
+                allocated_people.append(p.get_full_name())
+    all_people = [p.get_full_name() for p in main_amity.all_persons]
+    unallocated = [p_name for p_name in all_people if p_name not in allocated_people]
+    if not unallocated:
+        print("There exists no unallocated people at the moment.")
+        return
+    data = tabulate({'Unallocated People': unallocated}, headers='keys', tablefmt='fancy_grid')
+
+    if args['-o'] and args['FILE']:
+        with open(args['FILE'], encoding='utf-8', mode='w') as output_file:
+            output_file.write(data)
+            print("Successfully wrote list of unallocated persons to the file", args['FILE'])
+    elif not args['-o'] and not args['FILE']:
+        print(data)
+    else:
+        print("Invalid syntax.")
+        print("""Usage:
+            print_unallocated [-o FILE]""")

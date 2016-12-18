@@ -8,7 +8,7 @@ Usage:
      osa.py reallocate_person <first_name> <last_name> <new_room_name>
      osa.py load_people -i FILE
      osa.py print_allocations [-o FILE]
-     osa.py print_unallocated [-o=filename]
+     osa.py print_unallocated [-o FILE]
      osa.py print_room <room_name>
      osa.py save_state [--db=sqlite_database]
      osa.py load_state <sqlite_database>
@@ -121,10 +121,10 @@ class InteractiveOSA(cmd.Cmd):
         provided.
 
         Usage:
-            print_unallocated [-o=filename]
+            print_unallocated [-o FILE]
 
         """
-        print(args)
+        main.print_unallocated(args)
 
     @docopt_cmd
     def do_print_room(self, args):

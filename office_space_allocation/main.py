@@ -2,6 +2,7 @@ from office_space_allocation import amity, office, staff, livingspace, fellow, u
 import os
 import sqlite3
 import re
+import subprocess
 from tabulate import tabulate
 
 main_amity = None
@@ -246,3 +247,19 @@ def save_state(args):
     except sqlite3.Error as e:
         print("Error found when saving state.\n ", e)
         print("Please try again.")
+
+
+def load_state(args):
+    db_path = args['<sqlite_database>']
+    if not os.path.isfile(db_path):
+        print("Error reading database file...")
+        print("The file path provided does not exist")
+        return
+    file_type = str(subprocess.check_output(('file', db_path)), 'utf-8').strip()
+    if 'sqlite' not in file_type.lower():
+        print(os.path.abspath(db_path), "is not a valid Sqlite database. Please use a valid database")
+        return
+    else:
+        state = db.load_state(db_path)
+        main_amity.all_rooms, main_amity.all_persons = state
+        print("Successfully loaded state from", os.path.abspath(db_path))

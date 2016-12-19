@@ -160,7 +160,7 @@ class InteractiveOSA(cmd.Cmd):
            load_state <sqlite_database>
 
         """
-        print(args)
+        main.load_state(args)
 
 
 opts = docopt(__doc__, sys.argv[1:])

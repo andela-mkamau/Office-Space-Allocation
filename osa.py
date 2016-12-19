@@ -20,9 +20,12 @@ Usage:
 
 import cmd
 import sys
+
 from docopt import docopt, DocoptExit
+from colorama import Fore, Style
+
 from office_space_allocation import main
-from office_space_allocation import utilities
+
 
 # Thanks to
 # https://github.com/docopt/docopt/blob/master/examples/interactive_example.py
@@ -37,7 +40,7 @@ def docopt_cmd(sub_cmd):
         try:
             opts = docopt(fn.__doc__, args)
         except DocoptExit as e:
-            print("Invalid Command")
+            print(Fore.RED + "Invalid Command" + Style.RESET_ALL)
             print(e)
             return
         return sub_cmd(self, opts)
@@ -49,9 +52,8 @@ def docopt_cmd(sub_cmd):
 
 
 class InteractiveOSA(cmd.Cmd):
-
-    intro = "Office Space Allocations\n(type help to view all commands)"
-    prompt = "(amity >>> ) "
+    intro = Fore.CYAN + Style.BRIGHT + "Office Space Allocator\n" + Style.RESET_ALL + "(type help to view all commands)"
+    prompt = Style.BRIGHT + "(amity >>> ) " + Style.RESET_ALL
     file = None
 
     @docopt_cmd
@@ -97,7 +99,6 @@ class InteractiveOSA(cmd.Cmd):
             load_people -i FILE
 
         """
-        print(args)
         main.load_people(args)
 
     @docopt_cmd

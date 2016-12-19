@@ -3,6 +3,7 @@ import re
 import sqlite3
 import subprocess
 import sys
+from colorama import Fore, Style
 
 from tabulate import tabulate
 
@@ -33,17 +34,19 @@ def create_room(args):
         for r in office_rooms:
             if not main_amity.has_room(r):
                 main_amity.add_room(r)
-                print("Successfully created office room:", r.get_name())
+                print(Fore.GREEN + "Successfully created office room:", r.get_name() + Style.RESET_ALL)
             else:
-                print("{} already exists in Amity. Cannot create duplicate room!".format(r.get_name()))
+                print(Fore.RED + "{} already exists in Amity. Cannot create duplicate room!".format(r.get_name()) +
+                      Style.RESET_ALL)
     if args['livingspace']:
         ls_rooms = [livingspace.LivingSpace(name) for name in args['<room_name>']]
         for r in ls_rooms:
             if not main_amity.has_room(r):
                 main_amity.add_room(r)
-                print("Successfully created livingspace room:", r.get_name())
+                print(Fore.GREEN + "Successfully created livingspace room:", r.get_name() + Style.RESET_ALL)
             else:
-                print("{} already exists in Amity. Cannot create duplicate room!".format(r.get_name()))
+                print(Fore.RED + "{} already exists in Amity. Cannot create duplicate room!".format(r.get_name()) +
+                      Style.RESET_ALL)
 
 
 def add_person(args):
@@ -53,15 +56,17 @@ def add_person(args):
     :param args: Command line args from docopt
     """
     if args['<title>'].lower() not in ('staff', 'fellow'):
-        print("Invalid syntax!")
-        print(args['<first_name>'].title(), args['<last_name>'].title(), "must either be a FELLOW or STAFF")
+        print(Fore.RED + "Invalid syntax!")
+        print(args['<first_name>'].title(), args['<last_name>'].title(), "must either be a FELLOW or STAFF" +
+              Style.RESET_ALL)
         print("""\nUsage:
             add_person <first_name> <last_name> <title> [<wants_accommodation>]""")
         return
     elif args['<wants_accommodation>'] not in (None, 'y', 'n', 'Y', 'N', 'yes', 'no', 'No', 'Yes', 'YES', 'NO'):
-        print("Invalid syntax!")
+        print(Fore.RED + "Invalid syntax!")
         print("If", args['<first_name>'].title(), args['<last_name>'].title(), "wants accommodation, please indicate "
-                                                                               "with a yes or no in the last argument")
+                                                                               "with a yes or no in the last argument"
+              + Style.RESET_ALL)
         return
 
     if args['<wants_accommodation>']:
@@ -76,26 +81,26 @@ def add_person(args):
         if args['<title>'].lower() == "staff":
             p = staff.Staff(args['<first_name>'], args['<last_name>'])
             main_amity.add_person(p)
-            print("Successfully added", p.get_full_name(), "to Amity.")
+            print(Fore.GREEN + "Successfully added", p.get_full_name(), "to Amity." + Style.RESET_ALL)
             if wants_accommodation == 'y':
                 try:
                     r = main_amity.allocate_room(p)
-                    print("Successfully allocated", p.get_full_name(), "to", r.get_name())
+                    print(Fore.GREEN + "Successfully allocated", p.get_full_name(), "to", r.get_name() + Style.RESET_ALL)
                 except utilities.RoomFullError as e:
-                    print("Error allocating", p.get_full_name(), "room\n ", e)
+                    print(Fore.RED + "Error allocating", p.get_full_name(), "room\n ", e, Style.RESET_ALL)
 
         elif args['<title>'].lower() == "fellow":
             p = fellow.Fellow(args['<first_name>'], args['<last_name>'])
             main_amity.add_person(p)
-            print("Successfully added", p.get_full_name(), "to Amity.")
+            print(Fore.GREEN + "Successfully added", p.get_full_name(), "to Amity." + Style.RESET_ALL)
             if wants_accommodation == 'y':
                 try:
                     r = main_amity.allocate_room(p)
-                    print("Successfully allocated", p.get_full_name(), "to", r.get_name())
+                    print(Fore.GREEN + "Successfully allocated", p.get_full_name(), "to", r.get_name() + Style.RESET_ALL)
                 except utilities.RoomFullError as e:
-                    print("Error allocating", p.get_full_name(), "room\n ", e)
+                    print(Fore.RED + "Error allocating", p.get_full_name(), "room\n ", e, Style.RESET_ALL)
     except IndexError as e:
-        print("Error allocating room.\n", e)
+        print(Fore.RED + "Error allocating room.\n", e, Style.RESET_ALL)
 
 
 def reallocate_person(args):
@@ -106,17 +111,18 @@ def reallocate_person(args):
     room_name = args['<new_room_name>']
     try:
         main_amity.reallocate_person(name, room_name)
-        print("Successfully reallocated", name, "to", room_name)
+        print(Fore.GREEN, "Successfully reallocated", name, "to", room_name, Style.RESET_ALL)
     except ValueError as e:
-        print("Error found while reallocating room\nThe room", e)
+        print(Fore.RED, "Error found while reallocating room\nThe room", e, Style.RESET_ALL)
     except utilities.InvalidRoomOccupantError as e:
-        print("Error found while reallocating person!")
-        print(name, "cannot be reallocated to", room_name)
+        print(Fore.RED, "Error found while reallocating person!")
+        print(name, "cannot be reallocated to", room_name, Style.RESET_ALL)
     except utilities.RoomFullError as e:
-        print("Error found while reallocating person!")
-        print(room_name, "is already full! Please try with another room or remove some people there")
+        print(Fore.RED, "Error found while reallocating person!")
+        print(room_name, "is already full! Please try with another room or remove some people there", Style.RESET_ALL)
     except Exception as e:
-        print("Error found while reallocating person.\n", e, "\n\n Type help to view all commands")
+        print(Fore.RED, "Error found while reallocating person.\n", e, Style.RESET_ALL,
+              "\nType help to view all commands")
 
 
 def _get_line_data(line_data):
@@ -138,8 +144,8 @@ def _get_line_data(line_data):
         args['<wants_accommodation>'] = None
         return args
     else:
-        print("Error processing data!")
-        print("The data file contains invalid data. Also check for incorrect formatting.")
+        print(Fore.RED, "Error processing data!")
+        print("The data file contains invalid data. Also check for incorrect formatting.", Style.RESET_ALL)
 
 
 def load_people(args):
@@ -148,8 +154,8 @@ def load_people(args):
     """
     file_path = args['FILE']
     if not os.path.isfile(file_path):
-        print("Error reading file...")
-        print("The file path provided does not exist")
+        print(Fore.RED, "Error reading file...")
+        print("The file path provided does not exist", Style.RESET_ALL)
         return
 
     with open(file_path, encoding='utf-8') as data_file:
@@ -160,7 +166,7 @@ def load_people(args):
             if args:
                 add_person(args)
             else:
-                print("Skipping line ", line_no)
+                print(Fore.MAGENTA, "Skipping line ", line_no, Style.RESET_ALL)
                 continue
 
 
@@ -177,17 +183,18 @@ def print_allocations(args):
                 allocations[r.get_name()].append(p.get_full_name())
 
     if not allocations:
-        print("There exists no allocations at the moment. Please make some room allocations first.")
+        print(Fore.RED, "There exists no allocations at the moment. Please make some room allocations first.",
+              Style.RESET_ALL)
         return
     data = tabulate(allocations, headers='keys', tablefmt='fancy_grid')
     if args['-o'] and args['FILE']:
         with open(args['FILE'], encoding='utf-8', mode='w') as output_file:
             output_file.write(data)
-            print("Successfully wrote room allocations to the file", args['FILE'])
+            print(Fore.GREEN, "Successfully wrote room allocations to the file", args['FILE'], Style.RESET_ALL)
     elif not args['-o'] and not args['FILE']:
         print(data)
     else:
-        print("Invalid syntax.")
+        print(Fore.RED, "Invalid syntax.", Style.RESET_ALL)
         print("""Usage:
             print_allocations [-o FILE]""")
 
@@ -204,18 +211,19 @@ def print_unallocated(args):
     all_people = [p.get_full_name() for p in main_amity.all_persons]
     unallocated = [p_name for p_name in all_people if p_name not in allocated_people]
     if not unallocated:
-        print("There exists no unallocated people at the moment.")
+        print(Fore.RED, "There exists no unallocated people at the moment.", Style.RESET_ALL)
         return
     data = tabulate({'Unallocated People': unallocated}, headers='keys', tablefmt='fancy_grid')
 
     if args['-o'] and args['FILE']:
         with open(args['FILE'], encoding='utf-8', mode='w') as output_file:
             output_file.write(data)
-            print("Successfully wrote list of unallocated persons to the file", args['FILE'])
+            print(Fore.GREEN, "Successfully wrote list of unallocated persons to the file", args['FILE'],
+                  Style.RESET_ALL)
     elif not args['-o'] and not args['FILE']:
         print(data)
     else:
-        print("Invalid syntax.")
+        print(Fore.RED, "Invalid syntax.", Style.RESET_ALL)
         print("""Usage:
             print_unallocated [-o FILE]""")
 
@@ -229,13 +237,14 @@ def print_room(args):
         room_occupants = [p.get_full_name() for p in room.occupants]
 
         if not room_occupants:
-            print("{} is currently empty. Please allocate or reallocate people here.".format(room.get_name()))
+            print(Fore.RED, "{} is currently empty. Please allocate or reallocate people here.".format(room.get_name()),
+                  Style.RESET_ALL)
             return
         data = {room.get_name() + " occupants:": room_occupants}
         print(tabulate(data, headers='keys', tablefmt='fancy_grid'))
     except ValueError:
-        print("The room {} doesn't exist. You could create it. Please type help to view all "
-              "commands.".format(args['<room_name>']))
+        print(Fore.RED, "The room {} doesn't exist. You could create it. Please type help to view all "
+              "commands.".format(args['<room_name>']), Style.RESET_ALL)
 
 
 def save_state(args):
@@ -246,26 +255,27 @@ def save_state(args):
 
     try:
         db.save_state(main_amity, db_file)
-        print("Successfully saved Amity state to ", db_file, "sqlite database")
+        print(Fore.GREEN, "Successfully saved Amity state to ", db_file, "sqlite database", Style.RESET_ALL)
     except sqlite3.Error as e:
-        print("Error found when saving state.\n ", e)
-        print("Please try again.")
+        print(Fore.RED, "Error found when saving state.\n ", e)
+        print("Please try again.", Style.RESET_ALL)
 
 
 def load_state(args):
     db_path = args['<sqlite_database>']
     if not os.path.isfile(db_path):
-        print("Error reading database file...")
-        print("The file path provided does not exist")
+        print(Fore.RED, "Error reading database file...")
+        print("The file path provided does not exist", Style.RESET_ALL)
         return
     file_type = str(subprocess.check_output(('file', db_path)), 'utf-8').strip()
     if 'sqlite' not in file_type.lower():
-        print(os.path.abspath(db_path), "is not a valid Sqlite database. Please use a valid database")
+        print(Fore.RED, os.path.abspath(db_path), "is not a valid Sqlite database. Please use a valid database",
+              Style.RESET_ALL)
         return
     else:
         state = db.load_state(db_path)
         main_amity.all_rooms, main_amity.all_persons = state
-        print("Successfully loaded state from", os.path.abspath(db_path))
+        print(Fore.GREEN, "Successfully loaded state from", os.path.abspath(db_path), Style.RESET_ALL)
 
 
 def list_rooms(args):
@@ -274,7 +284,8 @@ def list_rooms(args):
     """
     all_rooms = [r.get_name() for r in main_amity.all_rooms]
     if not all_rooms:
-        print("There exists no room at Amity. You could create some. Type help to view all commands.")
+        print(Fore.RED, "There exists no room at Amity. You could create some. Type help to view all commands.",
+              Style.RESET_ALL)
         return
     data = tabulate({'Amity Rooms': all_rooms}, headers='keys',
                     tablefmt='fancy_grid')
@@ -285,5 +296,5 @@ def quit(args):
     """
     Exits the application
     """
-    print("\nExiting Amity application")
+    print(Fore.RED, Style.BRIGHT, "\nExiting Amity application", Style.RESET_ALL)
     sys.exit()

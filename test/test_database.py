@@ -1,11 +1,8 @@
-import unittest
-from office_space_allocation import office
-from office_space_allocation import livingspace
-from office_space_allocation import staff
-from office_space_allocation import fellow
-from office_space_allocation import amity
-from office_space_allocation import db
 import os
+import unittest
+
+from office_space_allocation import office, livingspace, staff, fellow, amity, db
+
 
 class TestDatabaseOperations(unittest.TestCase):
     """

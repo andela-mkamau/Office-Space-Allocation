@@ -1,4 +1,5 @@
 import unittest
+
 from office_space_allocation import main, office, staff
 
 
@@ -76,4 +77,3 @@ class TestMainFunctionality(unittest.TestCase):
 
         main.reallocate_person(args)
         self.assertTrue(rm2.has_person(p))
-

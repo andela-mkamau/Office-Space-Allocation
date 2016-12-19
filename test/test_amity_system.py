@@ -1,9 +1,6 @@
 import unittest
-from office_space_allocation import amity
-from office_space_allocation import fellow
-from office_space_allocation import staff
-from office_space_allocation import office
-from office_space_allocation import livingspace
+
+from office_space_allocation import amity, fellow, staff, office, livingspace
 
 
 class TestAmitySystem(unittest.TestCase):

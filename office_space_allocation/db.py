@@ -1,5 +1,5 @@
-import sqlite3
 import pickle
+import sqlite3
 
 
 def save_state(amity, sqlite_db):

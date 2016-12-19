@@ -1,9 +1,11 @@
-from office_space_allocation import amity, office, staff, livingspace, fellow, utilities, db
 import os
-import sqlite3
 import re
+import sqlite3
 import subprocess
+
 from tabulate import tabulate
+
+from office_space_allocation import amity, office, staff, livingspace, fellow, utilities, db
 
 main_amity = None
 

@@ -1,8 +1,7 @@
-from office_space_allocation.room import Room
 from office_space_allocation.fellow import Fellow
+from office_space_allocation.room import Room
 from office_space_allocation.staff import Staff
-from office_space_allocation.utilities import InvalidRoomOccupantError
-from office_space_allocation.utilities import RoomFullError
+from office_space_allocation.utilities import InvalidRoomOccupantError, RoomFullError
 
 
 class LivingSpace(Room):

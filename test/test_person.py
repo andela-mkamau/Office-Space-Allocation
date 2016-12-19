@@ -1,4 +1,5 @@
 import unittest
+
 from office_space_allocation import person, fellow, staff
 
 
@@ -14,7 +15,7 @@ class TestPersonClass(unittest.TestCase):
         p1 = person.Person("mike", "kamau")
         self.assertEqual("Mike Kamau", p1.get_full_name())
 
-    def test_can_perfrom_equality_comparison_btn_fellows(self):
+    def test_can_perform_equality_comparison_btn_fellows(self):
         """
         Should be able to do an equality comparison between Fellows
         """

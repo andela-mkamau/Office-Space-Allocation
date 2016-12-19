@@ -1,15 +1,13 @@
-from office_space_allocation.person import Person
-from office_space_allocation.fellow import Fellow
-from office_space_allocation.staff import Staff
-from office_space_allocation.office import Office
-from office_space_allocation.utilities import InvalidRoomOccupantError
-from office_space_allocation.utilities import RoomFullError
-from office_space_allocation.utilities import MultiplePeopleFoundException
 import random
+
+from office_space_allocation.fellow import Fellow
+from office_space_allocation.office import Office
+from office_space_allocation.person import Person
+from office_space_allocation.staff import Staff
+from office_space_allocation.utilities import InvalidRoomOccupantError, RoomFullError, MultiplePeopleFoundException
 
 
 class Amity:
-    # TODO : Complete definition
     def __init__(self):
         self.all_persons = []
         self.all_rooms = []

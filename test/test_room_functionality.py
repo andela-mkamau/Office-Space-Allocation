@@ -1,10 +1,7 @@
 import unittest
-from office_space_allocation import office
-from office_space_allocation import livingspace
-from office_space_allocation import fellow
-from office_space_allocation import staff
-from office_space_allocation.utilities import InvalidRoomOccupantError
-from office_space_allocation.utilities import RoomFullError
+
+from office_space_allocation import fellow, livingspace, office, staff
+from office_space_allocation.utilities import InvalidRoomOccupantError, RoomFullError
 
 
 class TestRoomFunctionality(unittest.TestCase):
@@ -88,15 +85,6 @@ class TestRoomFunctionality(unittest.TestCase):
             # add 5 fellows to this room
             for i in range(6):
                 lspace.add_person(fellow.Fellow("Fellow", str(i)))
-
-    def test_livingspace_raise_error_for_addition_of_staff(self):
-        """
-        LivingRoom should raise an InvalidRoomOccupantError exception when Staff tries to join it.
-        """
-        staf = staff.Staff("TT", "PP")
-        lspace = livingspace.LivingSpace("Livingroom")
-        with self.assertRaises(InvalidRoomOccupantError):
-            lspace.add_person(staf)
 
     def test_can_remove_fellow_from_office(self):
         """

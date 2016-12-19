@@ -1,5 +1,6 @@
-from office_space_allocation import amity, office, staff, livingspace, fellow, utilities
+from office_space_allocation import amity, office, staff, livingspace, fellow, utilities, db
 import os
+import sqlite3
 import re
 from tabulate import tabulate
 
@@ -231,3 +232,17 @@ def print_room(args):
     except ValueError:
         print("The room {} doesn't exist. You could create it. Please type help to view all "
               "commands.".format(args['<room_name>']))
+
+
+def save_state(args):
+    """
+    Persists all the data stored in the app to a SQLite database.
+    """
+    db_file = args['--db'] if args['--db'] else "amity_db"
+
+    try:
+        db.save_state(main_amity, db_file)
+        print("Successfully saved Amity state to ", db_file, "sqlite database")
+    except sqlite3.Error as e:
+        print("Error found when saving state.\n ", e)
+        print("Please try again.")

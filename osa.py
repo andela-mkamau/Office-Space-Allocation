@@ -10,7 +10,7 @@ Usage:
      osa.py print_allocations [-o FILE]
      osa.py print_unallocated [-o FILE]
      osa.py print_room <room_name>
-     osa.py save_state [--db=sqlite_database]
+     osa.py save_state [--db=SQLITE_DATABASE]
      osa.py load_state <sqlite_database>
      osa.py [-i | --interactive]
 
@@ -141,14 +141,15 @@ class InteractiveOSA(cmd.Cmd):
     def do_save_state(self, args):
         """
         Persists all the data stored in the app to a SQLite database.
+
         Specifying the  --db  parameter explicitly stores the data in the 
         sqlite_database  specified.
 
         Usage:
-           save_state [--db=sqlite_database]
+           save_state [--db=SQLITE_DATABASE]
 
         """
-        print(args)
+        main.save_state(args)
 
     @docopt_cmd
     def do_load_state(self, args):

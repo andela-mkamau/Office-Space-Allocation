@@ -263,3 +263,16 @@ def load_state(args):
         state = db.load_state(db_path)
         main_amity.all_rooms, main_amity.all_persons = state
         print("Successfully loaded state from", os.path.abspath(db_path))
+
+
+def list_rooms(args):
+    """
+    Prints to screen all rooms in Amity
+    """
+    all_rooms = [r.get_name() for r in main_amity.all_rooms]
+    if not all_rooms:
+        print("There exists no room at Amity. You could create some. Type help to view all commands.")
+        return
+    data = tabulate({'Amity Rooms': all_rooms}, headers='keys',
+                    tablefmt='fancy_grid')
+    print(data)

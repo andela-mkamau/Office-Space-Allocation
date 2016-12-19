@@ -2,6 +2,7 @@ import os
 import re
 import sqlite3
 import subprocess
+import sys
 
 from tabulate import tabulate
 
@@ -278,3 +279,11 @@ def list_rooms(args):
     data = tabulate({'Amity Rooms': all_rooms}, headers='keys',
                     tablefmt='fancy_grid')
     print(data)
+
+
+def quit(args):
+    """
+    Exits the application
+    """
+    print("\nExiting Amity application")
+    sys.exit()

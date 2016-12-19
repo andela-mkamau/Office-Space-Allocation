@@ -14,8 +14,7 @@ Usage:
      osa.py save_state [--db=SQLITE_DATABASE]
      osa.py load_state <sqlite_database>
      osa.py [-i | --interactive]
-
-Options:
+     osa.py quit
 
 """
 
@@ -172,6 +171,15 @@ class InteractiveOSA(cmd.Cmd):
 
         """
         main.list_rooms(args)
+
+    def do_quit(self, args):
+        """
+        Exits the application
+
+        Usage:
+            quit
+        """
+        main.quit(args)
 
 
 opts = docopt(__doc__, sys.argv[1:])

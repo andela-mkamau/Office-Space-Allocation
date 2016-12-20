@@ -4,6 +4,7 @@ from office_space_allocation.fellow import Fellow
 from office_space_allocation.office import Office
 from office_space_allocation.person import Person
 from office_space_allocation.staff import Staff
+from office_space_allocation.livingspace import LivingSpace
 from office_space_allocation.utilities import InvalidRoomOccupantError, RoomFullError, MultiplePeopleFoundException
 
 
@@ -60,30 +61,50 @@ class Amity:
         :param person: ```Person``` to allocate room
         :return: room : ```Room``` allocated , if possible
         """
-        if isinstance(person, Staff):
-            # allocate only offices
-            offices = [of for of in self.all_rooms if isinstance(of, Office)]
-            if len(offices) < 1:
-                raise IndexError("There are no more Office rooms to allocate. Please create some rooms before making "
-                                 "allocations")
-            else:
-                rm = random.choice(offices)
+        # allocate only offices
+        offices = [of for of in self.all_rooms if isinstance(of, Office)]
+        available_rooms = offices
 
-                rm.add_person(person)
-                self.allocated_rooms.append(rm)
-                return rm
-        elif isinstance(person, Fellow):
-            # raise exception if there are no rooms
-            if len(self.all_rooms) < 1:
-                raise IndexError("There are no available rooms. Please create some rooms before making allocations.")
-            else:
-                office_rm = random.choice(self.all_rooms)
-
-                office_rm.add_person(person)
-                self.allocated_rooms.append(office_rm)
-                return office_rm
+        if not len(offices):
+            raise IndexError("There are no more Office rooms to allocate. Please create some rooms before making "
+                             "allocations")
         else:
-            raise TypeError("Person argument must be of type Staff or Fellow")
+            while available_rooms:
+                try:
+                    rm = random.choice(available_rooms)
+                    rm.add_person(person)
+                    self.allocated_rooms.append(rm)
+                    return rm
+                except RoomFullError:
+                    available_rooms.remove(rm)
+                    continue
+            if not available_rooms:
+                raise IndexError("All offices are full. Cannot make allocations now!")
+
+    def allocate_livingspace_room(self, person):
+        """
+        Allocates a Fellow a Livingspace room
+        :param person: `Fellow` object to add to a Livingspace room
+        :return: `Livingspace` allocated
+        """
+        livingspaces = [lv for lv in self.all_rooms if isinstance(lv, LivingSpace)]
+        available_rooms = livingspaces
+
+        if not len(livingspaces):
+            raise IndexError("There are no more Livingspace rooms to allocate. Please create some rooms before making "
+                             "allocations")
+        else:
+            while available_rooms:
+                try:
+                    rm = random.choice(available_rooms)
+                    rm.add_person(person)
+                    self.allocated_rooms.append(rm)
+                    return rm
+                except RoomFullError:
+                    available_rooms.remove(rm)
+                    continue
+            if not available_rooms:
+                raise IndexError("All Livingspace are full. Cannot make allocations now!")
 
     def find_person(self, name):
         """
@@ -126,8 +147,9 @@ class Amity:
             raise
 
         if room.has_person(person):
-            raise Exception("Cannot reallocate person to same room.\n {} is already in {}".format(person_name,
-                                                                                                  room_name))
+            raise Exception(
+                "Cannot reallocate person to same room.\n "
+                "{} is already in {}".format(person_name, room_name))
 
         # remove person in current room
         found = False

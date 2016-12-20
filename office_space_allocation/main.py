@@ -82,21 +82,31 @@ def add_person(args):
             p = staff.Staff(args['<first_name>'], args['<last_name>'])
             main_amity.add_person(p)
             print(Fore.GREEN + "Successfully added", p.get_full_name(), "to Amity." + Style.RESET_ALL)
-            if wants_accommodation == 'y':
-                try:
-                    r = main_amity.allocate_room(p)
-                    print(Fore.GREEN + "Successfully allocated", p.get_full_name(), "to", r.get_name() + Style.RESET_ALL)
-                except utilities.RoomFullError as e:
-                    print(Fore.RED + "Error allocating", p.get_full_name(), "room\n ", e, Style.RESET_ALL)
+            try:
+                r = main_amity.allocate_room(p)
+                print(Fore.GREEN + "Successfully allocated", p.get_full_name(), "to", r.get_name() + Style.RESET_ALL)
+            except utilities.RoomFullError as e:
+                print(Fore.RED + "Error allocating", p.get_full_name(), "room\n ", e, Style.RESET_ALL)
 
         elif args['<title>'].lower() == "fellow":
             p = fellow.Fellow(args['<first_name>'], args['<last_name>'])
             main_amity.add_person(p)
             print(Fore.GREEN + "Successfully added", p.get_full_name(), "to Amity." + Style.RESET_ALL)
+
+            try:
+                r = main_amity.allocate_room(p)
+                print(Fore.GREEN + "Successfully allocated", p.get_full_name(), "to",
+                      r.get_name() + Style.RESET_ALL)
+            except utilities.RoomFullError as e:
+                    print(Fore.RED + "Error allocating", p.get_full_name(), "room\n ", e, Style.RESET_ALL)
+            except IndexError as e:
+                print(Fore.RED + "Error allocating room.\n", e, Style.RESET_ALL)
+
             if wants_accommodation == 'y':
                 try:
-                    r = main_amity.allocate_room(p)
-                    print(Fore.GREEN + "Successfully allocated", p.get_full_name(), "to", r.get_name() + Style.RESET_ALL)
+                    lv_room = main_amity.allocate_livingspace_room(p)
+                    print(Fore.GREEN + "Successfully allocated", p.get_full_name(), "to",
+                          lv_room.get_name() + Style.RESET_ALL)
                 except utilities.RoomFullError as e:
                     print(Fore.RED + "Error allocating", p.get_full_name(), "room\n ", e, Style.RESET_ALL)
     except IndexError as e:

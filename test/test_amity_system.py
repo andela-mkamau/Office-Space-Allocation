@@ -1,0 +1,133 @@
+import unittest
+
+from office_space_allocation import amity, fellow, staff, office, livingspace
+
+
+class TestAmitySystem(unittest.TestCase):
+    """
+    Tests for the functionality the major components of the system
+    """
+
+    def setUp(self):
+        self.amity = amity.Amity()
+
+    def test_can_add_person_to_list(self):
+        """
+        Should be able to add Person to list of person
+        """
+        p1 = fellow.Fellow("New", "Guy")
+        p2 = staff.Staff("New", 'Staff')
+        self.amity.add_person(p1)
+        self.amity.add_person(p2)
+        self.assertTupleEqual(
+            (self.amity.all_persons[0], self.amity.all_persons[1]),
+            (p1, p2)
+        )
+
+    def test_can_add_new_room_to_list_rooms(self):
+        """
+        Should be able to add rooms to list of rooms
+        """
+        rm1 = office.Office("New Office")
+        rm2 = livingspace.LivingSpace("Chillout Room")
+        self.amity.add_room(rm1)
+        self.amity.add_room(rm2)
+        self.assertTupleEqual(
+            (self.amity.all_rooms[1], self.amity.all_rooms[0]),
+            (rm2, rm1)
+        )
+
+    def test_can_find_room_by_name(self):
+        """
+        Should be able to find Room using name
+        """
+        rm1 = office.Office("office 1")
+        rm2 = livingspace.LivingSpace("Livingroom 1")
+        self.amity.add_room(rm1)
+        self.amity.add_room(rm2)
+
+        self.assertTupleEqual(
+            (self.amity.find_room("livingroom 1"),
+             self.amity.find_room("office 1")),
+            (rm2, rm1)
+        )
+
+    def test_raises_valueerror_room_not_found(self):
+        """
+        Should raise a ValueError when room is not found
+        """
+        with self.assertRaises(ValueError):
+            self.amity.find_room("No Room Here")
+
+    def test_can_allocate_room_to_person(self):
+        """
+        Should be able to allocate room to a Person
+        """
+        rm1 = office.Office("Room 1")
+        rm2 = livingspace.LivingSpace("Room 2")
+        rm3 = livingspace.LivingSpace("Room 3")
+        self.amity.add_room(rm1)
+        self.amity.add_room(rm2)
+        self.amity.add_room(rm3)
+
+        fel = fellow.Fellow("Tat", "Pap")
+
+        fel_room = self.amity.allocate_room(fel)
+
+        self.assertEqual(fel, fel_room.get_occupants_tuple()[0])
+
+    def test_can_find_person_by_name(self):
+        """
+        Should be able to find Person in the system using Person name
+        """
+        # add person to amity
+        p1 = fellow.Fellow("Mike", "Kamau")
+        p2 = staff.Staff("Mary", "Jane")
+        self.amity.add_person(p1)
+        self.amity.add_person(p2)
+
+        self.assertTupleEqual(
+            ((p2,), (p1,)),
+            (self.amity.find_person("jane"), self.amity.find_person("kamau"))
+        )
+
+    def test_raises_exception_if_person_not_found(self):
+        """
+        Should raise an Exception if Person being searched is not found
+        """
+        with self.assertRaises(Exception):
+            self.amity.find_person("michael kamau")
+
+    def test_can_reallocate_person_to_another_room(self):
+        """
+        Should be able to reallocate Person to another Room
+        """
+        # create three rooms
+        rm1 = office.Office("Room 1")
+        rm2 = office.Office("Room 2")
+        rm3 = office.Office("Room 3")
+
+        self.amity.add_room(rm1)
+        #  Persons
+        p1 = fellow.Fellow("Fellow", "1")
+
+        # add Persons to Amity
+        self.amity.add_person(p1)
+        # add Persons to Rooms
+        room = self.amity.allocate_room(p1)
+        print("Room allocated: ", room.get_name())
+
+        # Add other rooms
+        self.amity.add_room(rm2)
+        self.amity.add_room(rm3)
+
+        # reallocate p1 to another room
+        self.amity.reallocate_person("fellow 1", rm2.name)
+        self.assertTrue(rm2.has_person(p1))
+        # reallocate p1 from rm2 to rm3
+        self.amity.reallocate_person("Fellow 1", rm3.get_name())
+        self.assertTrue(rm3.has_person(p1))
+
+        # reallocate p1 from rm3 to rm1
+        self.amity.reallocate_person("fellow 1", rm1.get_name())
+        self.assertTrue(rm1.has_person(p1))

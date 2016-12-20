@@ -7,6 +7,13 @@ python:
   - "3.6-dev" # 3.6 development branch
   - "nightly" # currently points to 3.7-dev
 # command to install dependencies
-install: "pip install -r requirements.txt"
+install:
+ - pip install -r requirements.txt
+ - pip install codacy-coverage
+
 # command to run tests
-script: pytest
+script:
+ - pytest --cov=office_space_allocation --cov-report=xml
+
+after_success:
+  - python-codacy-coverage -r coverage.xml

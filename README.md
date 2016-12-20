@@ -1,5 +1,6 @@
 # Office Space Allocator
-
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2251a775f5db4c41803844d2f093f24d)](https://www.codacy.com/app/michael-kamau/Office-Space-Allocation?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=andela-mkamau/Office-Space-Allocation&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/2251a775f5db4c41803844d2f093f24d)](https://www.codacy.com/app/michael-kamau/Office-Space-Allocation?utm_source=github.com&utm_medium=referral&utm_content=andela-mkamau/Office-Space-Allocation&utm_campaign=Badge_Coverage)
 ## Introduction
 
 Office Space Allocator is Python powered command line application that

@@ -1,0 +1,172 @@
+import random
+
+from office_space_allocation.fellow import Fellow
+from office_space_allocation.office import Office
+from office_space_allocation.person import Person
+from office_space_allocation.staff import Staff
+from office_space_allocation.livingspace import LivingSpace
+from office_space_allocation.utilities import InvalidRoomOccupantError, RoomFullError, MultiplePeopleFoundException
+
+
+class Amity:
+    def __init__(self):
+        self.all_persons = []
+        self.all_rooms = []
+        self.allocated_rooms = []
+
+    def add_person(self, person):
+        """
+        Adds a new Person to list of persons
+        :param: ```Person``` person
+        """
+        if not isinstance(person, Person):
+            raise TypeError("Argument should be of type Person")
+        else:
+            self.all_persons.append(person)
+
+    def add_room(self, new_room):
+        """
+        Adds ```Room``` new_room to list of all_rooms
+        :param ```Room``` new_room
+        """
+        self.all_rooms.append(new_room)
+
+    def has_room(self, room):
+        """
+        Checks if Room `room` already exists in Amity
+        :return: `True` if room exist, otherwise `False`
+        """
+        for r in self.all_rooms:
+            if r == room:
+                return True
+        return False
+
+    def find_room(self, name):
+        """
+        Find a ```Room``` object using name
+        :param name: ```str``` name of the Room to look for
+        :return: ```Room``` object if found
+        """
+        name = name.lower()
+        for r in self.all_rooms:
+            if name == r.get_name().lower():
+                return r
+        raise ValueError(name + " not found!")
+
+    def allocate_room(self, person):
+        """
+        Allocates a room to ```Person``` person.
+
+        This is done randomly.
+        :param person: ```Person``` to allocate room
+        :return: room : ```Room``` allocated , if possible
+        """
+        # allocate only offices
+        offices = [of for of in self.all_rooms if isinstance(of, Office)]
+        available_rooms = offices
+
+        if not len(offices):
+            raise IndexError("There are no more Office rooms to allocate. Please create some rooms before making "
+                             "allocations")
+        else:
+            while available_rooms:
+                try:
+                    rm = random.choice(available_rooms)
+                    rm.add_person(person)
+                    self.allocated_rooms.append(rm)
+                    return rm
+                except RoomFullError:
+                    available_rooms.remove(rm)
+                    continue
+            if not available_rooms:
+                raise IndexError("All offices are full. Cannot make allocations now!")
+
+    def allocate_livingspace_room(self, person):
+        """
+        Allocates a Fellow a Livingspace room
+        :param person: `Fellow` object to add to a Livingspace room
+        :return: `Livingspace` allocated
+        """
+        livingspaces = [lv for lv in self.all_rooms if isinstance(lv, LivingSpace)]
+        available_rooms = livingspaces
+
+        if not len(livingspaces):
+            raise IndexError("There are no more Livingspace rooms to allocate. Please create some rooms before making "
+                             "allocations")
+        else:
+            while available_rooms:
+                try:
+                    rm = random.choice(available_rooms)
+                    rm.add_person(person)
+                    self.allocated_rooms.append(rm)
+                    return rm
+                except RoomFullError:
+                    available_rooms.remove(rm)
+                    continue
+            if not available_rooms:
+                raise IndexError("All Livingspace are full. Cannot make allocations now!")
+
+    def find_person(self, name):
+        """
+        Finds a Person using name.
+        Name can be the full name, first name, last name or part of either
+        :param name:
+        :return: a tuple with Person(s) objects found in the list if persons
+        """
+        name = name.strip()
+        res = [p for p in self.all_persons if name.title() in p.get_full_name()]
+        if not res:
+            raise Exception("Person was not found in the system")
+        else:
+            return tuple(res)
+
+    def reallocate_person(self, person_name, room_name):
+        """
+        Reallocates `Person` to another `Room` if possible
+
+        :param: person_name: Name of the `Person`
+        :param: room_name: Name of the `Room`
+        :return: a tuple with (`Person`, `Room`) if reallocation is successful
+        """
+        person_name = person_name.strip()
+        room_name = room_name.strip()
+
+        try:
+            # only one person should be found
+            people_found = self.find_person(person_name)
+            if len(people_found) > 1:
+                raise MultiplePeopleFoundException
+            else:
+                person = people_found[0]
+        except Exception:
+            raise
+
+        try:
+            room = self.find_room(room_name)
+        except ValueError:
+            raise
+
+        if room.has_person(person):
+            raise Exception(
+                "Cannot reallocate person to same room.\n "
+                "{} is already in {}".format(person_name, room_name))
+
+        # remove person in current room
+        found = False
+        for r in self.all_rooms:
+            if r.has_person(person):
+                found = True
+                r.remove_person(person)
+                break
+        if not found:
+            raise Exception("{} has not been added to any room.\n Please add them to a room before making any "
+                            "reallocation".format(person_name))
+
+        # add person to room
+        try:
+            room.add_person(person)
+        except InvalidRoomOccupantError:
+            raise
+        except RoomFullError:
+            raise
+        return person, room

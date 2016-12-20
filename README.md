@@ -1,0 +1,2 @@
+# Office-Space-Allocation
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2251a775f5db4c41803844d2f093f24d)](https://www.codacy.com/app/michael-kamau/Office-Space-Allocation?utm_source=github.com&utm_medium=referral&utm_content=andela-mkamau/Office-Space-Allocation&utm_campaign=badger)
